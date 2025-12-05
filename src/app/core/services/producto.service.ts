@@ -8,7 +8,7 @@ import { Producto, ApiResponse, PaginatedResponse } from '../models';
 })
 export class ProductoService {
   private readonly http = inject(HttpClient);
-  private readonly API_URL = 'http://localhost:8080/api/productos';
+  private readonly API_URL = 'http://localhost:8089/api/productos';
 
   getAll(): Observable<ApiResponse<Producto[]>> {
     return this.http.get<ApiResponse<Producto[]>>(this.API_URL);
@@ -40,7 +40,8 @@ export class ProductoService {
   }
 
   search(nombre: string): Observable<ApiResponse<Producto[]>> {
+    // El backend usa el endpoint principal con filtro por nombre
     const params = new HttpParams().set('nombre', nombre);
-    return this.http.get<ApiResponse<Producto[]>>(`${this.API_URL}/search`, { params });
+    return this.http.get<ApiResponse<Producto[]>>(this.API_URL, { params });
   }
 }

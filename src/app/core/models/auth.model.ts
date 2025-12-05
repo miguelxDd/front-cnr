@@ -5,11 +5,14 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   token: string;
+  type: string;
   username: string;
-  expiresIn: number;
+  roles: string[];
+  authenticated: boolean;
 }
 
 export interface AuthUser {
   username: string;
   token: string;
+  roles?: string[];
 }

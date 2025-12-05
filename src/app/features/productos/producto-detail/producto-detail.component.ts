@@ -65,7 +65,7 @@ import { NavbarComponent, LoadingComponent } from '../../../shared/components';
             
             <div class="detail-row">
               <span class="detail-label">Descripción:</span>
-              <span class="detail-value">{{ producto()?.descripcion }}</span>
+              <span class="detail-value">{{ producto()?.descripcion || 'N/A' }}</span>
             </div>
             
             <div class="detail-row">

@@ -66,20 +66,16 @@ import { NavbarComponent, LoadingComponent } from '../../../shared/components';
 
             <div class="mb-3">
               <label for="descripcion" class="block mb-2 font-medium">
-                Descripción <span class="p-error">*</span>
+                Descripción
               </label>
               <textarea 
                 id="descripcion"
                 pInputTextarea
                 formControlName="descripcion"
-                placeholder="Ingrese la descripción del producto"
+                placeholder="Ingrese la descripción del producto (opcional)"
                 [rows]="4"
                 class="w-full"
-                [class.ng-invalid]="isFieldInvalid('descripcion')"
               ></textarea>
-              @if (isFieldInvalid('descripcion')) {
-                <small class="p-error">La descripción es requerida</small>
-              }
             </div>
 
             <div class="d-flex gap-3 mb-3">
@@ -183,7 +179,7 @@ export class ProductoFormComponent implements OnInit {
 
   productForm: FormGroup = this.fb.group({
     nombre: ['', [Validators.required, Validators.minLength(2)]],
-    descripcion: ['', [Validators.required, Validators.minLength(5)]],
+    descripcion: [''],
     precio: [null, [Validators.required, Validators.min(0.01)]],
     stock: [0, [Validators.required, Validators.min(0)]]
   });

@@ -101,7 +101,7 @@ import { NavbarComponent, LoadingComponent } from '../../../shared/components';
                 <td>
                   <strong>{{ producto.nombre }}</strong>
                 </td>
-                <td>{{ producto.descripcion | slice:0:50 }}{{ producto.descripcion?.length > 50 ? '...' : '' }}</td>
+                <td>{{ producto.descripcion ? (producto.descripcion | slice:0:50) + (producto.descripcion.length > 50 ? '...' : '') : 'N/A' }}</td>
                 <td>{{ producto.precio | currency:'USD':'symbol':'1.2-2' }}</td>
                 <td>
                   <p-tag 
@@ -181,9 +181,15 @@ export class ProductoListComponent implements OnInit {
   loadProducts(): void {
     this.loading.set(true);
     this.productoService.getAll().subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.productos.set(response.data);
+      next: (response: any) => {
+        console.log('Productos response:', response);
+        if (response.success && response.data) {
+          // El backend devuelve datos paginados con los productos en 'content'
+          const productos = response.data.content ?? response.data;
+          const data = Array.isArray(productos) ? productos : [];
+          this.productos.set(data);
+        } else {
+          this.productos.set([]);
         }
         this.loading.set(false);
       },
@@ -197,9 +203,13 @@ export class ProductoListComponent implements OnInit {
   onSearch(): void {
     if (this.searchTerm.trim()) {
       this.productoService.search(this.searchTerm).subscribe({
-        next: (response) => {
-          if (response.success) {
-            this.productos.set(response.data);
+        next: (response: any) => {
+          if (response.success && response.data) {
+            const productos = response.data.content ?? response.data;
+            const data = Array.isArray(productos) ? productos : [];
+            this.productos.set(data);
+          } else {
+            this.productos.set([]);
           }
         }
       });
