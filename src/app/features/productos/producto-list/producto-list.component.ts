@@ -182,7 +182,6 @@ export class ProductoListComponent implements OnInit {
     this.loading.set(true);
     this.productoService.getAll().subscribe({
       next: (response: any) => {
-        console.log('Productos response:', response);
         if (response.success && response.data) {
           // El backend devuelve datos paginados con los productos en 'content'
           const productos = response.data.content ?? response.data;

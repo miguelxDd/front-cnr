@@ -40,9 +40,6 @@ export class AuthService {
   login(credentials: LoginRequest): Observable<ApiResponse<LoginResponse>> {
     return this.http.post<ApiResponse<LoginResponse>>(`${this.API_URL}/login`, credentials).pipe(
       tap(response => {
-        console.log('Login response:', response);
-        console.log('Response data:', response.data);
-        console.log('Token recibido:', response.data?.token);
         if (response.success && response.data) {
           this.setSession(response.data);
         }
